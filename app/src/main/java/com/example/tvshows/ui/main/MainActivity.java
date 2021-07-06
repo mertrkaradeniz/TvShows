@@ -1,7 +1,9 @@
 package com.example.tvshows.ui.main;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     private MostPopularTVShowsViewModel viewModel;
     private List<TVShow> tvShows = new ArrayList<>();
     private TVShowsAdapter tvShowsAdapter;
+    private int currentPage = 1;
+    private int totalAvailablePages = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,21 +38,50 @@ public class MainActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(MostPopularTVShowsViewModel.class);
         tvShowsAdapter = new TVShowsAdapter(tvShows);
         binding.rvTvShows.setAdapter(tvShowsAdapter);
-        getMostPopularTVShows();
-//        Log.d("SAAS", "" + tvShows.size());
-    }
-
-    private void getMostPopularTVShows() {
-        binding.pbLoading.setVisibility(View.VISIBLE);
-        viewModel.getMostPopularTVShows(0).observe(this, mostPopularTVShowsResponse -> {
-            binding.pbLoading.setVisibility(View.GONE);
-            if (mostPopularTVShowsResponse != null) {
-                if (mostPopularTVShowsResponse.getTvShows() != null) {
-                    tvShows.addAll(mostPopularTVShowsResponse.getTvShows());
-//                    Log.d("SAAS", "" + tvShows.size());
-                    tvShowsAdapter.notifyDataSetChanged();
+        binding.rvTvShows.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (!binding.rvTvShows.canScrollVertically(1)) {
+                    if (currentPage <= totalAvailablePages) {
+                        currentPage += 1;
+                        getMostPopularTVShows();
+                    }
                 }
             }
         });
+        getMostPopularTVShows();
+    }
+
+    private void getMostPopularTVShows() {
+        toggleLoading();
+        viewModel.getMostPopularTVShows(currentPage).observe(this, mostPopularTVShowsResponse -> {
+            toggleLoading();
+            if (mostPopularTVShowsResponse != null) {
+                totalAvailablePages = mostPopularTVShowsResponse.getPages();
+                if (mostPopularTVShowsResponse.getTvShows() != null) {
+                    int oldCount = tvShows.size();
+                    tvShows.addAll(mostPopularTVShowsResponse.getTvShows());
+                    tvShowsAdapter.notifyDataSetChanged();
+                    tvShowsAdapter.notifyItemRangeInserted(oldCount, tvShows.size());
+                }
+            }
+        });
+    }
+
+    private void toggleLoading() {
+        if (currentPage == 1) {
+            if (binding.pbLoading.getVisibility() == View.VISIBLE) {
+                binding.pbLoading.setVisibility(View.GONE);
+            } else {
+                binding.pbLoading.setVisibility(View.VISIBLE);
+            }
+        } else {
+            if (binding.pbLoadingMore.getVisibility() == View.VISIBLE) {
+                binding.pbLoadingMore.setVisibility(View.GONE);
+            } else {
+                binding.pbLoadingMore.setVisibility(View.VISIBLE);
+            }
+        }
     }
 }
