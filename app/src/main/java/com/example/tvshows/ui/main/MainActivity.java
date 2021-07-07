@@ -7,15 +7,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.example.tvshows.adapter.TVShowsAdapter;
 import com.example.tvshows.data.model.TVShow;
-import com.example.tvshows.data.model.TVShowDetails;
 import com.example.tvshows.databinding.ActivityMainBinding;
 import com.example.tvshows.listeners.TVShowsListener;
 import com.example.tvshows.ui.detail.TVShowDetailsActivity;
+import com.example.tvshows.ui.watchlist.WatchlistActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements TVShowsListener {
                 }
             }
         });
+        binding.imgWatchList.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), WatchlistActivity.class)));
         getMostPopularTVShows();
     }
 

@@ -15,6 +15,7 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup"
         tools:targetApi="m">
+        <activity android:name=".ui.watchlist.WatchlistActivity"></activity>
         <activity android:name=".ui.detail.TVShowDetailsActivity" />
         <activity android:name=".ui.main.MainActivity">
             <intent-filter>
