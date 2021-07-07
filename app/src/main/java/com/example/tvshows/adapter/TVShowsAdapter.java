@@ -1,7 +1,6 @@
 package com.example.tvshows.adapter;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -41,7 +40,7 @@ public class TVShowsAdapter extends RecyclerView.Adapter<TVShowsAdapter.TVShowVi
         TVShow tvShow = tvShows.get(position);
         RoundedImageView imageView = holder.itemContainerTvShowBinding.imgTVShow;
         imageView.setAlpha(0f);
-        Picasso.get().load(tvShow.getImageThumbnailPath()).noFade().into(imageView, new Callback() {
+        Picasso.get().load(tvShow.getThumbnail()).noFade().into(imageView, new Callback() {
             @Override
             public void onSuccess() {
                 imageView.animate().setDuration(300).alpha(1f).start();
