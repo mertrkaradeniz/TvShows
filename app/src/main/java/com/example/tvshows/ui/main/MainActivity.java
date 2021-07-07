@@ -14,6 +14,7 @@ import com.example.tvshows.data.model.TVShow;
 import com.example.tvshows.databinding.ActivityMainBinding;
 import com.example.tvshows.listener.TVShowsListener;
 import com.example.tvshows.ui.detail.TVShowDetailsActivity;
+import com.example.tvshows.ui.search.SearchActivity;
 import com.example.tvshows.ui.watchlist.WatchlistActivity;
 
 import java.util.ArrayList;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements TVShowsListener {
             }
         });
         binding.imgWatchList.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), WatchlistActivity.class)));
+        binding.imgSearch.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), SearchActivity.class)));
         getMostPopularTVShows();
     }
 
