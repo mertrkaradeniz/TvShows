@@ -1,5 +1,6 @@
 package com.example.tvshows.data.remote;
 
+import com.example.tvshows.data.model.TVShowDetailsResponse;
 import com.example.tvshows.data.model.TVShowsResponse;
 
 import retrofit2.Call;
@@ -10,4 +11,7 @@ public interface ApiService {
 
     @GET("most-popular")
     Call<TVShowsResponse> getMostPopularTvShows(@Query("page") int page);
+
+    @GET("show-details")
+    Call<TVShowDetailsResponse> getTVShowDetails(@Query("q") String tvShowId);
 }

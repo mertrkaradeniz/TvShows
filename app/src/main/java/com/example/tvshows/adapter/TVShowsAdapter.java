@@ -1,6 +1,7 @@
 package com.example.tvshows.adapter;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tvshows.data.model.TVShow;
 import com.example.tvshows.databinding.ItemContainerTvShowBinding;
+import com.example.tvshows.listeners.TVShowsListener;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -17,9 +19,11 @@ import java.util.List;
 public class TVShowsAdapter extends RecyclerView.Adapter<TVShowsAdapter.TVShowViewHolder> {
 
     private List<TVShow> tvShows;
+    private TVShowsListener tvShowsListener;
 
-    public TVShowsAdapter(List<TVShow> tvShows) {
+    public TVShowsAdapter(List<TVShow> tvShows, TVShowsListener tvShowsListener) {
         this.tvShows = tvShows;
+        this.tvShowsListener = tvShowsListener;
     }
 
     @NonNull
@@ -52,6 +56,8 @@ public class TVShowsAdapter extends RecyclerView.Adapter<TVShowsAdapter.TVShowVi
         holder.itemContainerTvShowBinding.tvNetwork.setText(tvShow.getNetwork() + " (" + tvShow.getCountry() + ")");
         holder.itemContainerTvShowBinding.tvStarted.setText("Started on: " + tvShow.getStartDate());
         holder.itemContainerTvShowBinding.tvStatus.setText(tvShow.getStatus());
+
+        holder.itemContainerTvShowBinding.getRoot().setOnClickListener(v -> tvShowsListener.onTVShowClicked(tvShow));
     }
 
     @Override
