@@ -1,4 +1,4 @@
-package com.example.tvshows.listeners;
+package com.example.tvshows.listener;
 
 import com.example.tvshows.data.model.TVShow;
 

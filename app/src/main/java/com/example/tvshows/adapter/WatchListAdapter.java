@@ -1,6 +1,7 @@
 package com.example.tvshows.adapter;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -8,21 +9,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tvshows.data.model.TVShow;
 import com.example.tvshows.databinding.ItemContainerTvShowBinding;
-import com.example.tvshows.listener.TVShowsListener;
+import com.example.tvshows.listener.WatchlistListener;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class TVShowsAdapter extends RecyclerView.Adapter<TVShowsAdapter.TVShowViewHolder> {
+public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.TVShowViewHolder> {
 
     private List<TVShow> tvShows;
-    private TVShowsListener tvShowsListener;
+    private WatchlistListener watchlistListener;
 
-    public TVShowsAdapter(List<TVShow> tvShows, TVShowsListener tvShowsListener) {
+    public WatchListAdapter(List<TVShow> tvShows, WatchlistListener watchlistListener) {
         this.tvShows = tvShows;
-        this.tvShowsListener = tvShowsListener;
+        this.watchlistListener = watchlistListener;
     }
 
     @NonNull
@@ -36,7 +37,7 @@ public class TVShowsAdapter extends RecyclerView.Adapter<TVShowsAdapter.TVShowVi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TVShowsAdapter.TVShowViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull WatchListAdapter.TVShowViewHolder holder, int position) {
         TVShow tvShow = tvShows.get(position);
         RoundedImageView imageView = holder.itemContainerTvShowBinding.imgTVShow;
         imageView.setAlpha(0f);
@@ -55,8 +56,9 @@ public class TVShowsAdapter extends RecyclerView.Adapter<TVShowsAdapter.TVShowVi
         holder.itemContainerTvShowBinding.tvNetwork.setText(tvShow.getNetwork() + " (" + tvShow.getCountry() + ")");
         holder.itemContainerTvShowBinding.tvStarted.setText("Started on: " + tvShow.getStartDate());
         holder.itemContainerTvShowBinding.tvStatus.setText(tvShow.getStatus());
-
-        holder.itemContainerTvShowBinding.getRoot().setOnClickListener(v -> tvShowsListener.onTVShowClicked(tvShow));
+        holder.itemContainerTvShowBinding.getRoot().setOnClickListener(v -> watchlistListener.onTVShowClicked(tvShow));
+        holder.itemContainerTvShowBinding.imgDelete.setOnClickListener(v -> watchlistListener.removeTVShowFromWatchlist(tvShow, position));
+        holder.itemContainerTvShowBinding.imgDelete.setVisibility(View.VISIBLE);
     }
 
     @Override

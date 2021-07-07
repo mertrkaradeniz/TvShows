@@ -12,7 +12,7 @@ import android.view.View;
 import com.example.tvshows.adapter.TVShowsAdapter;
 import com.example.tvshows.data.model.TVShow;
 import com.example.tvshows.databinding.ActivityMainBinding;
-import com.example.tvshows.listeners.TVShowsListener;
+import com.example.tvshows.listener.TVShowsListener;
 import com.example.tvshows.ui.detail.TVShowDetailsActivity;
 import com.example.tvshows.ui.watchlist.WatchlistActivity;
 
